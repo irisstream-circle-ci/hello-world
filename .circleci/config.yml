@@ -3,25 +3,17 @@ default_settings: &defaults
   docker:
     - image: circleci/node:13.8.0
   working_directory: ~/
+commands:
+  print_pipeline_id:
+    steps:
+      - run: echo $CIRCLE_WORKFLOW_ID
 jobs:
-  save_hello_world_output:
-    <<: *defaults
+  print_wordflow_id:
+    docker:
+      - image: circleci/node:13.8.0
     steps:
-      - run: echo "Hello World" > output.txt
-      - persist_to_workspace:
-          root: "~/"
-          paths:
-            - output.txt
-  print_output_file:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run: cat output.txt
+      - print_pipeline_id
 workflows:
   say-hello-workflow:
     jobs:
-      - save_hello_world_output
-      - print_output_file:
-          requires:
-            - save_hello_world_output
+      - print_wordflow_id
