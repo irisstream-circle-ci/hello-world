@@ -15,4 +15,6 @@ jobs:
           shell: bash
           when: on_fail
 workflows:
-  print_error
+  my_workflow:
+    jobs:
+      - print_error
