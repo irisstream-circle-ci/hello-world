@@ -1,21 +1,23 @@
 version: 2.1
+default_settings: &defaults
+  docker:
+    - image: circleci/node:13.8.0
+  working_directory: ~/
 jobs:
   save_hello_world_output:
-    docker:
-      - image: circleci/node:13.8.0
+    <<: *defaults
     steps:
-      - run: echo "Hello World" > ~/output.txt
+      - run: echo "Hello World" > output.txt
       - persist_to_workspace:
           root: "~/"
           paths:
             - output.txt
   print_output_file:
-    docker:
-      - image: circleci/node:13.8.0
+    <<: *defaults
     steps:
       - attach_workspace:
           at: ~/
-      - run: cat ~/output.txt
+      - run: cat output.txt
 workflows:
   say-hello-workflow:
     jobs:
