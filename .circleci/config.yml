@@ -3,17 +3,16 @@ default_settings: &defaults
   docker:
     - image: circleci/node:13.8.0
   working_directory: ~/
-commands:
-  print_pipeline_id:
-    steps:
-      - run: echo $CIRCLE_WORKFLOW_ID
 jobs:
-  print_wordflow_id:
+  print_error:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - print_pipeline_id
+      - run: return 1
+      - run:
+          name: print error
+          command: echo "error"
+          shell: bash
+          when: on_fail
 workflows:
-  say-hello-workflow:
-    jobs:
-      - print_wordflow_id
+  print_error
